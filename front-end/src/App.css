@@ -1,0 +1,18 @@
+.left-chat .active {
+  background-color: #ebf5ff;
+}
+
+a.active svg {
+  fill: black;
+}
+a.active {
+  background-color: #f0f0f0;
+}
+
+.chat-bar .dotButton {
+  visibility: hidden;
+}
+
+.chat-bar:hover .dotButton {
+  visibility: visible;
+}
