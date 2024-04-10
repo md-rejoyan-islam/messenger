@@ -67,7 +67,7 @@ export const userLogin = asyncHandler(async (req, res) => {
 
   // save refresh token to cookie for 7 days
   res.cookie("accessToken", accessToken, {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     // secure: process.env.APP_ENV == "Development" ? false : true,
     sameSite: "strict",
