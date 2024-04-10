@@ -14,7 +14,6 @@ import chatRouter from "./routes/chat.route.js";
 
 // initialization
 const app = express();
-
 dotenv.config();
 
 // set middlewares
