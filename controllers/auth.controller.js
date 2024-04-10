@@ -67,10 +67,10 @@ export const userLogin = asyncHandler(async (req, res) => {
 
   // save refresh token to cookie for 7 days
   res.cookie("accessToken", accessToken, {
-    httpOnly: false,
+    httpOnly: true,
     secure: true,
     // secure: process.env.APP_ENV == "Development" ? false : true,
-    sameSite: "strict",
+    sameSite: "none",
     path: "/",
     maxAge: 15 * 24 * 60 * 60 * 1000, // 15d
   });
