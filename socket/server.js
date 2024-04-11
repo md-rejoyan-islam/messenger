@@ -19,6 +19,7 @@ io.on("connection", (socket) => {
     activeUsers.some((user) => user.id === id)
       ? null
       : activeUsers.push({ userId: id, socketId: socket.id });
+
     // pass to client
     io.emit("activeUsers", activeUsers);
   });
