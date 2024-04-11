@@ -50,7 +50,6 @@ export default function Layout() {
       socket.current.disconnect();
     };
   }, [user._id]);
-  console.log(activeUsers);
   return (
     <>
       <LeftBody

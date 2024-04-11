@@ -8,10 +8,9 @@ import EmojiPicker from "emoji-picker-react";
 import useDropDownPopup from "../../../../hook/useDropDownPopup";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-
 import PropTypes from "prop-types";
 import { createChat } from "../../../../features/chat/chatApiSlice";
-import photo from "../../../../assets/default.png";
+import { useParams } from "react-router-dom";
 export default function ProfileChatFooter({ activeChatUser }) {
   const { isOpen, toggleMenu, dropDownRef } = useDropDownPopup();
 
@@ -20,15 +19,18 @@ export default function ProfileChatFooter({ activeChatUser }) {
 
   const [photos, setPhotos] = useState(null);
 
+  const { id } = useParams();
+
   const handleKeyUp = (e) => {
     e.preventDefault();
 
+    const receiverId = activeChatUser?._id || id;
+
     if (e.key === "Enter") {
       const formData = new FormData();
-      formData.append("receiverId", activeChatUser?._id);
+      formData.append("receiverId", receiverId);
       formData.append("chat", chat);
       formData.append("photo", photos);
-
       dispatch(createChat({ formData, setChat, setPhotos }));
     }
   };
@@ -101,7 +103,17 @@ export default function ProfileChatFooter({ activeChatUser }) {
           </button>
 
           <div className="absolute bottom-[42px] right-[5px]">
-            {isOpen && <EmojiPicker />}
+            {isOpen && (
+              <EmojiPicker
+                previewConfig={{
+                  showPreview: false,
+                }}
+                skinTonesDisabled={true}
+                onEmojiClick={(object) => {
+                  setChat((prev) => prev + object.emoji);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
