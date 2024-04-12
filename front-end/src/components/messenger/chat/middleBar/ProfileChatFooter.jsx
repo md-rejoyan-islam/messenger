@@ -11,7 +11,8 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { createChat } from "../../../../features/chat/chatApiSlice";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import useSound from "use-sound";
+import sound from "../../../../assets/audio/messenger.mp3";
 
 export default function ProfileChatFooter({ activeChatUser, socket }) {
   const { isOpen, toggleMenu, dropDownRef } = useDropDownPopup();
@@ -21,7 +22,8 @@ export default function ProfileChatFooter({ activeChatUser, socket }) {
 
   const [photos, setPhotos] = useState(null);
 
-  const [activeIncomingMsg, setActiveIncomingMsg] = useState({});
+  // sound
+  const [play] = useSound(sound);
 
   const { id } = useParams();
 
@@ -41,9 +43,9 @@ export default function ProfileChatFooter({ activeChatUser, socket }) {
           setChat,
           setPhotos,
           socket,
-          setActiveIncomingMsg,
         })
       );
+      play();
     }
   };
 

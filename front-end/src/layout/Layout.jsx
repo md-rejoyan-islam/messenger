@@ -9,6 +9,8 @@ import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { getAuthData } from "../features/auth/authSlice";
 import { updateActiveUserIncomingMsg } from "../features/chat/chatSlice";
+import audio from "../assets/audio/messenger.mp3";
+import useSound from "use-sound";
 
 export default function Layout() {
   const {
@@ -23,6 +25,8 @@ export default function Layout() {
   const dispatch = useDispatch();
 
   const { user } = useSelector(getAuthData);
+  // sound
+  const [play] = useSound(audio);
 
   // active users
   const [activeUsers, setActiveUsers] = useState([]);
@@ -47,6 +51,7 @@ export default function Layout() {
     // update active user data
     socket?.current?.on("getLastMessageFromUser", (msgInfo) => {
       dispatch(updateActiveUserIncomingMsg(msgInfo));
+      play();
     });
 
     // get data from server
