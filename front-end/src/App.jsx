@@ -9,7 +9,6 @@ const helmetContext = {};
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getLoggedInUser } from "./features/auth/authApiSlice";
-import { getAllUser } from "./features/user/userApiSlice";
 
 function App() {
   // get error
@@ -27,7 +26,6 @@ function App() {
 
   useEffect(() => {
     dispatch(getLoggedInUser());
-    // dispatch(getAllUser());
   }, [dispatch]);
 
   return (

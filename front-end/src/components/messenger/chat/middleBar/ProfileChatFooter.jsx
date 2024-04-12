@@ -11,13 +11,17 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { createChat } from "../../../../features/chat/chatApiSlice";
 import { useParams } from "react-router-dom";
-export default function ProfileChatFooter({ activeChatUser }) {
+import { useEffect } from "react";
+
+export default function ProfileChatFooter({ activeChatUser, socket }) {
   const { isOpen, toggleMenu, dropDownRef } = useDropDownPopup();
 
   const [chat, setChat] = useState("");
   const dispatch = useDispatch();
 
   const [photos, setPhotos] = useState(null);
+
+  const [activeIncomingMsg, setActiveIncomingMsg] = useState({});
 
   const { id } = useParams();
 
@@ -31,7 +35,15 @@ export default function ProfileChatFooter({ activeChatUser }) {
       formData.append("receiverId", receiverId);
       formData.append("chat", chat);
       formData.append("photo", photos);
-      dispatch(createChat({ formData, setChat, setPhotos }));
+      dispatch(
+        createChat({
+          formData,
+          setChat,
+          setPhotos,
+          socket,
+          setActiveIncomingMsg,
+        })
+      );
     }
   };
 

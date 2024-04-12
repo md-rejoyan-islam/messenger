@@ -3,6 +3,7 @@ import {
   createUser,
   deleteUserById,
   getAllUser,
+  getAllUserWithLastMessage,
   getSingleUserById,
   updateUserById,
 } from "../controllers/user.controller.js";
@@ -11,11 +12,15 @@ import { isLoggedIn } from "../middlewares/verify.js";
 const userRouter = express.Router();
 
 // use verify token
-// userRouter.use(isLoggedIn);
+userRouter.use(isLoggedIn);
 
 // create route
 
 userRouter.route("/").get(isLoggedIn, getAllUser);
+
+// users with last message
+userRouter.route("/last-message").get(getAllUserWithLastMessage);
+
 userRouter
   .route("/:id")
   .get(getSingleUserById)

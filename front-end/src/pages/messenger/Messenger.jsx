@@ -10,8 +10,14 @@ import { Helmet } from "react-helmet-async";
 export default function Messenger() {
   const dispatch = useDispatch();
 
-  const { showProfile, setShowProfile, activeChatUser, isOpen, setIsOpen } =
-    useOutletContext();
+  const {
+    showProfile,
+    setShowProfile,
+    activeChatUser,
+    isOpen,
+    setIsOpen,
+    socket,
+  } = useOutletContext();
 
   const { id } = useParams();
 
@@ -22,7 +28,7 @@ export default function Messenger() {
   return (
     <>
       <Helmet>
-        <title>Chat</title>
+        <title>Message</title>
         {/* <link rel="canonical" href={icon} /> */}
         <link rel="shortcut icon" href={icon} type="image/x-icon" />
       </Helmet>
@@ -33,6 +39,7 @@ export default function Messenger() {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         activeChatUser={activeChatUser}
+        socket={socket}
       />
       <RightBody
         activeChatUser={activeChatUser}

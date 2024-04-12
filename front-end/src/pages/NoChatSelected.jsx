@@ -1,22 +1,16 @@
 import messengerPhoto from "../assets/messengar_transparent.png";
-import { useSelector } from "react-redux";
-import { getAuthData } from "../features/auth/authSlice";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
+import icon from "../assets/messenger.png";
+import { Helmet } from "react-helmet-async";
 
 export default function NoChatSelected() {
-  const { user } = useSelector(getAuthData);
-
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!user?.isVerified) {
-  //     navigate("/account-verify");
-  //   }
-  // }, [navigate, user.isVerified]);
-
   return (
     <>
+      <Helmet>
+        <title>Chat</title>
+        {/* <link rel="canonical" href={icon} /> */}
+        <link rel="shortcut icon" href={icon} type="image/x-icon" />
+      </Helmet>
       <section className=" hidden xsm:block min-h-[calc(100vh-3px)] mx-auto flex-1  p-4 border-l">
         <div className="flex justify-center items-center flex-col h-full">
           <figure>

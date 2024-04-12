@@ -16,3 +16,37 @@ a.active {
 .chat-bar:hover .dotButton {
   visibility: visible;
 }
+
+[data-title] {
+  position: relative;
+}
+
+[data-title]:hover:after {
+  visibility: visible;
+}
+
+[data-title]:after {
+  content: attr(data-title);
+  height: fit-content;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 11px;
+  z-index: 1000;
+  position: absolute;
+  padding: 6px;
+  visibility: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  overflow: visible;
+  border-radius: 5px;
+}
+.user-chat [data-title]:after {
+  right: 103%;
+}
+
+.friend-chat [data-title]:after {
+  left: 103%;
+}

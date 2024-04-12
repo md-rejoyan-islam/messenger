@@ -5,6 +5,7 @@ import UserChat from "./chatContent/UserChat";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useRef } from "react";
+import TimeCount from "./chatContent/TimeCount";
 
 export default function ProfileChatBody() {
   const { user } = useSelector(getAuthData);
@@ -23,9 +24,15 @@ export default function ProfileChatBody() {
     >
       {chats.map((chat) => {
         return chat?.senderId === user?._id ? (
-          <UserChat key={chat._id} chat={chat} />
+          <div key={chat._id}>
+            <TimeCount time={chat?.createdAt} />
+            <UserChat key={chat._id} chat={chat} />
+          </div>
         ) : (
-          <FriendChat key={chat._id} chat={chat} />
+          <div key={chat._id}>
+            <TimeCount time={chat?.createdAt} />
+            <FriendChat key={chat._id} chat={chat} />
+          </div>
         );
       })}
     </div>

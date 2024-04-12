@@ -61,7 +61,7 @@ export default function Register() {
         <title>Register </title>
       </Helmet>
       <div className="maxWidth min-h-[calc(100vh-6px)] py-16 flex items-center justify-center">
-        <div className=" box-border  text-center w-full  sm:w-[450px] mx-auto  ">
+        <div className=" box-border  text-center w-full   sm:w-[450px] mx-auto  ">
           <div className="px-6 py-4 sm:border rounded-md sm:shadow-2xl flex justify-between min-h-[65vh] flex-col">
             <div className="header">
               <figure className="mx-auto py-2">

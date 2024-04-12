@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import LeftBody from "../components/messenger/part/LeftBody";
 import { getUserToUserChat } from "../features/chat/chatApiSlice";
 import MenuBar from "../components/messenger/menu/MenuBar";
 import useDrawerPopup from "../hook/useDrawerPopup";
@@ -28,6 +27,7 @@ export default function MainLayout() {
     <section className="flex outside_drawer">
       <DrawerMenu drawerOpen={drawerOpen} drawerRef={drawerRef} />
       <MenuBar />
+
       <Outlet
         context={{
           showProfile,

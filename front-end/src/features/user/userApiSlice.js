@@ -14,3 +14,18 @@ export const getAllUser = createAsyncThunk("user/getAllUser", async () => {
     throw new Error(error.response.data.error.message);
   }
 });
+
+// get all users with last message
+export const getAllUserWithLastMessage = createAsyncThunk(
+  "user/getAllUserWithLastMessage",
+  async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/v1/users/last-message`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.error.message);
+    }
+  }
+);

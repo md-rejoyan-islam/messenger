@@ -24,6 +24,17 @@ io.on("connection", (socket) => {
     io.emit("activeUsers", activeUsers);
   });
 
+  // get real time data
+  socket.on("lastMessageFromUser", (data) => {
+    // check user is active or not
+    const isActiveUser = activeUsers.find(
+      (dt) => dt.userId === data.receiverId
+    );
+
+    isActiveUser &&
+      socket.to(isActiveUser.socketId).emit("getLastMessageFromUser", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
     activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUser } from "./userApiSlice";
+import { getAllUserWithLastMessage } from "./userApiSlice";
 
 // create auth slice
 const userSlice = createSlice({
@@ -18,7 +18,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // all users
-      .addCase(getAllUser.fulfilled, (state, action) => {
+      .addCase(getAllUserWithLastMessage.fulfilled, (state, action) => {
         state.users = action.payload.data;
       });
   },

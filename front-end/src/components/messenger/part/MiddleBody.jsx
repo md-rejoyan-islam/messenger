@@ -9,6 +9,7 @@ export default function MiddleBody({
   isOpen,
   setIsOpen,
   activeChatUser,
+  socket,
 }) {
   return (
     <div
@@ -23,7 +24,7 @@ export default function MiddleBody({
       />
       <ProfileChatBody />
 
-      <ProfileChatFooter activeChatUser={activeChatUser} />
+      <ProfileChatFooter activeChatUser={activeChatUser} socket={socket} />
     </div>
   );
 }

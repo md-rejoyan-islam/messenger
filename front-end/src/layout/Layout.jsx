@@ -2,12 +2,13 @@ import { Outlet } from "react-router-dom";
 import LeftBody from "../components/messenger/part/LeftBody";
 import { useOutletContext } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getAllUser } from "../features/user/userApiSlice";
+import { getAllUserWithLastMessage } from "../features/user/userApiSlice";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { getAuthData } from "../features/auth/authSlice";
+import { updateActiveUserIncomingMsg } from "../features/chat/chatSlice";
 
 export default function Layout() {
   const {
@@ -30,7 +31,7 @@ export default function Layout() {
   const socket = useRef();
 
   useEffect(() => {
-    dispatch(getAllUser());
+    dispatch(getAllUserWithLastMessage());
   }, [dispatch]);
 
   // socket initialize
@@ -38,12 +39,19 @@ export default function Layout() {
     socket.current = io("ws://localhost:9000", {
       // transports: ["websocket"],
     });
+    // currentSocket(socket);
 
     // join
     socket.current.emit("join", user._id);
 
+    // update active user data
+    socket?.current?.on("getLastMessageFromUser", (msgInfo) => {
+      dispatch(updateActiveUserIncomingMsg(msgInfo));
+    });
+
     // get data from server
     socket.current.on("activeUsers", (users) => {
+      // console.log(users);
       setActiveUsers(users);
     });
     return () => {
@@ -67,6 +75,7 @@ export default function Layout() {
           isOpen,
           setIsOpen,
           activeUsers,
+          socket,
         }}
       />
     </>

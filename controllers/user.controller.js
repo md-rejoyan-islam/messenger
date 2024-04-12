@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import hashPassword from "../helpers/hashPassword.js";
 import { successResponse } from "../helpers/responseHandler.js";
 import User from "../models/user.model.js";
+import chatModel from "../models/chat.model.js";
 
 /**
  * @descriptionription Get all users data
@@ -12,6 +13,8 @@ import User from "../models/user.model.js";
  * @returns {object} response
  * @access admin
  */
+
+// ( without logged in user)
 
 export const getAllUser = asyncHandler(async (req, res) => {
   const users = await User.find({
@@ -30,6 +33,52 @@ export const getAllUser = asyncHandler(async (req, res) => {
     payload: {
       total: totalUser,
       data: users,
+    },
+  });
+});
+
+// get all user with last message and user info ( without logged in user)
+export const getAllUserWithLastMessage = asyncHandler(async (req, res) => {
+  const users = await User.find({
+    $and: [{ isVerified: true }, { _id: { $ne: req.me._id } }],
+  }).select("-password -accessToken -__v"); // remove logged in user data
+
+  if (!users.length) throw createError.NotFound("Couldn't find any data.");
+
+  // get their last message
+  const usersWithLastMessage = await Promise.all(
+    users.map(async (user) => {
+      const lastMessageData = await chatModel
+        .findOne({
+          $or: [
+            { $and: [{ senderId: req.me._id }, { receiverId: user._id }] },
+            { $and: [{ senderId: user._id }, { receiverId: req.me._id }] },
+          ],
+        })
+        .sort({ createdAt: -1 }); // sort by latest message;
+
+      return {
+        ...user._doc,
+        lastMessage: {
+          sender:
+            lastMessageData?.senderId === req.me._id.toString() ? "me" : "you",
+          message: lastMessageData?.message,
+        },
+        lastMessageTime: lastMessageData?.createdAt || null,
+      };
+    })
+  );
+
+  // total user count
+  const totalUser = users.length;
+
+  // send response
+  successResponse(res, {
+    statusCode: 200,
+    message: "All users data with last message.",
+    payload: {
+      total: totalUser,
+      data: usersWithLastMessage,
     },
   });
 });

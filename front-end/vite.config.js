@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [react()],
   define: {
     "process.env.VITE_API_URL": JSON.stringify(process.env.VITE_API_URL),
+    "process.env.VITE_SOCKET_URL": JSON.stringify(process.env.VITE_SOCKET_URL),
   },
 });
