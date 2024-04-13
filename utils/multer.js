@@ -7,8 +7,7 @@ import path from "path";
 
 // create disk storage
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        
+  destination: (req, file, cb) => {
     // image file size
     const fileSize = parseInt(req.headers["content-length"]);
 

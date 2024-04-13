@@ -40,7 +40,7 @@ export default function Layout() {
 
   // socket initialize
   useEffect(() => {
-    socket.current = io("ws://localhost:9000", {
+    socket.current = io("https://patient-guenevere-rejoyan.koyeb.app", {
       // transports: ["websocket"],
     });
     // currentSocket(socket);
