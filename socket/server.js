@@ -1,8 +1,17 @@
 import { Server } from "socket.io";
 
+import { createServer } from "http";
+
+import dotenv from "dotenv";
+dotenv.config();
+
+const port = process.env.SOCKET_PORT || 9001;
+
+const httpServer = createServer();
+
 // port
 
-const io = new Server(9000, {
+const io = new Server(httpServer, {
   cors: {
     origin: "*",
   },
@@ -45,4 +54,9 @@ io.on("connection", (socket) => {
   socket.on("chat message", (msg) => {
     io.emit("chat message", msg);
   });
+});
+
+// listen
+httpServer.listen(port, () => {
+  console.log(`Socket is connected in port : ${port}`);
 });
