@@ -54,7 +54,6 @@ const isLoggedIn = asyncHandler(async (req, res, next) => {
     if (!loginUser) {
       // clear cookie
       res.clearCookie("accessToken");
-
       // send response
       return errorResponse(res, {
         statusCode: 400,
