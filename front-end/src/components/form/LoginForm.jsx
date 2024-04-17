@@ -9,6 +9,7 @@ import { handleKeyDown } from "../../helpers/helpers";
 import { loginUser } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Input from "../Input";
 
 export default function LoginForm() {
   const { inputs, handleInputChange } = useFormFields({
@@ -47,20 +48,18 @@ export default function LoginForm() {
       onKeyDown={handleKeyDown}
     >
       <div className="my-4">
-        <input
-          className=" w-full focus:border-blue-400 border border-transparent focus:border focus:outline-none bg-[#f5f5f5] rounded-xl px-4 py-[6px]"
-          type="text"
-          name="auth"
+        <Input
+          placeholder={"Email address or phone number"}
+          handleChange={handleInputChange}
           value={inputs.auth}
-          onChange={handleInputChange}
-          placeholder="Email address or phone number"
+          name={"auth"}
+          type="text"
         />
       </div>
       <div className="my-4 relative">
-        <input
-          className="w-full border border-transparent focus:border-blue-400 focus:border focus:outline-none  bg-[#f5f5f5] rounded-xl px-4  py-[6px]"
+        <Input
           name="password"
-          onChange={handleInputChange}
+          handleChange={handleInputChange}
           value={inputs.password}
           type={isPasswordShow ? "text" : "password"}
           placeholder="Password"

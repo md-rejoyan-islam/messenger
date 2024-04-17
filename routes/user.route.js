@@ -4,6 +4,7 @@ import {
   deleteUserById,
   getAllUser,
   getAllUserWithLastMessage,
+  getDisconnectedUsers,
   getSingleUserById,
   updateUserById,
 } from "../controllers/user.controller.js";
@@ -20,6 +21,9 @@ userRouter.route("/").get(isLoggedIn, getAllUser);
 
 // users with last message
 userRouter.route("/last-message").get(getAllUserWithLastMessage);
+
+// disconnected user
+userRouter.route("/disconnnect-user").get(getDisconnectedUsers);
 
 userRouter
   .route("/:id")

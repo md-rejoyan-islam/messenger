@@ -19,9 +19,21 @@ const io = new Server(httpServer, {
 
 // active user
 let activeUsers = [];
+
 // socket connection
 io.on("connection", (socket) => {
   console.log("a user connected");
+
+  // typing
+  socket.on("typingForMsg", (data) => {
+    // check user is active or not
+    const isActiveUser = activeUsers.find(
+      (dt) => dt.userId === data.receiverId
+    );
+
+    isActiveUser &&
+      socket.to(isActiveUser.socketId).emit("getTypingForMsgData", data);
+  });
 
   // join
   socket.on("join", (id) => {
@@ -39,7 +51,6 @@ io.on("connection", (socket) => {
     const isActiveUser = activeUsers.find(
       (dt) => dt.userId === data.receiverId
     );
-
     isActiveUser &&
       socket.to(isActiveUser.socketId).emit("getLastMessageFromUser", data);
   });

@@ -35,6 +35,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default: null,
     },
+    conversationIds: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Conversation",
+    },
     isVerified: {
       type: Boolean,
       default: false,

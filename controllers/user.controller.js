@@ -15,7 +15,6 @@ import chatModel from "../models/chat.model.js";
  */
 
 // ( without logged in user)
-
 export const getAllUser = asyncHandler(async (req, res) => {
   const users = await User.find({
     $and: [{ isVerified: true }, { _id: { $ne: req.me._id } }],
@@ -40,8 +39,17 @@ export const getAllUser = asyncHandler(async (req, res) => {
 // get all user with last message and user info ( without logged in user)
 export const getAllUserWithLastMessage = asyncHandler(async (req, res) => {
   const users = await User.find({
-    $and: [{ isVerified: true }, { _id: { $ne: req.me._id } }],
-  }).select("-password -accessToken -__v"); // remove logged in user data
+    $and: [{ isVerified: true }, { _id: { $ne: req.me._id } }], // remove logged in user data
+  })
+    .select("-password -accessToken -__v")
+    .populate({
+      path: "conversationIds",
+      // populate message data
+      populate: {
+        path: "messagesIds",
+        options: { sort: { createdAt: -1 }, limit: 1 }, // sort by latest message
+      },
+    });
 
   if (!users.length) throw createError.NotFound("Couldn't find any data.");
 
@@ -222,6 +230,59 @@ export const updateUserById = asyncHandler(async (req, res) => {
     message: "Successfully update user data.",
     payload: {
       data: result,
+    },
+  });
+});
+
+// disconnected user
+export const getDisconnectedUsers = asyncHandler(async (req, res) => {
+  const result = await User.find({
+    $and: [{ isVerified: true }, { _id: { $ne: req.me._id } }],
+  }).populate({
+    path: "conversationIds",
+    select: "userIds",
+  });
+
+  // if result not found
+  if (!result.length) throw createError.NotFound("Couldn't find any data.");
+
+  // find disconnected user
+  const disconnectedUsers = [];
+  result.forEach((data) => {
+    if (!data.conversationIds.length) {
+      disconnectedUsers.push({
+        _id: data._id,
+        name: data.name,
+      });
+    } else {
+      // userids match inner of conversationIds or not
+      const res = data.conversationIds.find((dt) =>
+        dt.userIds.includes(req.me._id)
+      );
+
+      if (!res) {
+        disconnectedUsers.push({
+          _id: data._id,
+          name: data.name,
+          photo: data.photo,
+        });
+      }
+    }
+  });
+
+  // console.log(disconnectedUsers);
+
+  // total length
+  if (!disconnectedUsers.length)
+    throw createError.NotFound("You connected with all users");
+
+  // response send
+  successResponse(res, {
+    statusCode: 200,
+    message: "All disconnect user",
+    payload: {
+      total: disconnectedUsers.length,
+      data: disconnectedUsers,
     },
   });
 });

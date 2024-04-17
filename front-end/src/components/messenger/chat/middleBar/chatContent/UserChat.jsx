@@ -17,12 +17,12 @@ export default function UserChat({ chat }) {
             id="timeCount"
             data-title={moment(chat?.createdAt).format("LLLL")}
           >
-            {chat?.message?.text}
+            {chat?.body}
           </p>
-          {chat?.message?.photo && (
+          {chat?.image && (
             <figure className="py-2 flex justify-end">
               <img
-                src={chat?.message?.photo}
+                src={chat?.image}
                 className="w-40  text-right rounded-md"
                 alt=""
               />

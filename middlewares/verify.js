@@ -51,7 +51,7 @@ const isLoggedIn = asyncHandler(async (req, res, next) => {
     }
 
     // if user not exist
-    else {
+    if (!loginUser) {
       // clear cookie
       res.clearCookie("accessToken");
 

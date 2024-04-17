@@ -13,11 +13,11 @@ export default function FriendChat({ chat }) {
           className="bg-[#f0f0f0] rounded-2xl p-3"
           data-title={moment(chat?.createdAt).format("LLLL")}
         >
-          {chat?.message?.text}
+          {chat?.body}
         </p>
-        {chat?.message?.photo && (
+        {chat?.photo && (
           <figure className="py-2">
-            <img src={chat?.message?.photo} className="w-40 " alt="" />
+            <img src={chat?.photo} className="w-40 " alt="" />
           </figure>
         )}
       </div>

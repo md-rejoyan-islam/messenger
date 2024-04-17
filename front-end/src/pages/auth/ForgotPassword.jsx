@@ -8,6 +8,7 @@ import SmallLoader from "../../components/loader/SmallLoader";
 import { useState } from "react";
 import { forgottenPassword } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
+import Input from "../../components/Input";
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
@@ -37,12 +38,12 @@ export default function ForgotPassword() {
         <title>Forgot Password</title>
       </Helmet>
 
-      <div className="maxWidth min-h-[calc(100vh-6px)] flex items-center  py-16">
-        <div className="  box-border  text-center w-full  sm:w-[450px] mx-auto  ">
-          <div className="px-6 py-4 sm:border rounded-md sm:shadow-2xl flex justify-between min-h-[65vh] flex-col">
+      <div className=" min-h-[calc(100vh-6px)] flex items-center  py-16 bg-[#f3f5f7]">
+        <div className="  box-border  text-center w-full  sm:w-[450px] mx-auto  px-4">
+          <div className="px-3 sm:px-6 py-4 sm:border rounded-md shadow-sm bg-white flex justify-between min-h-[65vh] flex-col">
             <div className="header">
               <figure className="mx-auto py-2">
-                <img src={logo} className="w-10 mx-auto" alt="" />
+                <img src={logo} className="w-10 mx-auto" alt="Messenggar" />
               </figure>
               <div>
                 <h1 className="text-xl font-bold">Forgotten your password?</h1>
@@ -50,13 +51,12 @@ export default function ForgotPassword() {
 
               <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
                 <div className="my-4">
-                  <input
-                    className=" w-full border border-transparent focus:border-blue-400 focus:border focus:outline-none bg-[#f5f5f5] rounded-xl px-4 py-[6px]"
-                    type="text"
+                  <Input
+                    placeholder={"Your Email or Phone Number"}
+                    handleChange={handleInputChange}
+                    name={"auth"}
                     value={inputs.auth}
-                    name="auth"
-                    onChange={handleInputChange}
-                    placeholder="Your Email or Phone Number"
+                    type={"text"}
                   />
                 </div>
                 <div className="my-4">

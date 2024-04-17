@@ -6,16 +6,23 @@ import { ImImages } from "react-icons/im";
 import { AiFillPlusCircle } from "react-icons/ai";
 import EmojiPicker from "emoji-picker-react";
 import useDropDownPopup from "../../../../hook/useDropDownPopup";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { createChat } from "../../../../features/chat/chatApiSlice";
 import { useParams } from "react-router-dom";
 import useSound from "use-sound";
 import sound from "../../../../assets/audio/messenger.mp3";
+import { getAuthData } from "../../../../features/auth/authSlice";
+import { createUserToUserChat } from "../../../../features/conversation/conversationApiSlice";
+import { getAllConversation } from "../../../../features/conversation/conversationSlice";
+import { BsFillSendFill } from "react-icons/bs";
 
 export default function ProfileChatFooter({ activeChatUser, socket }) {
   const { isOpen, toggleMenu, dropDownRef } = useDropDownPopup();
+
+  const { activeConversation } = useSelector(getAllConversation);
+
+  const { user } = useSelector(getAuthData);
 
   const [chat, setChat] = useState("");
   const dispatch = useDispatch();
@@ -25,29 +32,54 @@ export default function ProfileChatFooter({ activeChatUser, socket }) {
   // sound
   const [play] = useSound(sound);
 
+  // typing
+  const [typing, setTyping] = useState(false);
+
   const { id } = useParams();
+  const receiverId = activeConversation?.userIds?.find((member) => {
+    return member !== user._id;
+  });
 
   const handleKeyUp = (e) => {
     e.preventDefault();
 
-    const receiverId = activeChatUser?._id || id;
+    setTyping(true);
+
+    if (!chat) {
+      setTyping(false);
+    }
 
     if (e.key === "Enter") {
-      const formData = new FormData();
-      formData.append("receiverId", receiverId);
-      formData.append("chat", chat);
-      formData.append("photo", photos);
-      dispatch(
-        createChat({
-          formData,
-          setChat,
-          setPhotos,
-          socket,
-        })
-      );
-      play();
+      handleSubmit();
     }
   };
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("conversationId", id);
+    formData.append("body", chat);
+    formData.append("image", photos);
+    formData.append("receiverId", receiverId);
+    setTyping(false);
+
+    dispatch(
+      createUserToUserChat({
+        formData,
+        socket,
+        setChat,
+        setPhotos,
+      })
+    );
+    // play();
+  };
+
+  useEffect(() => {
+    socket?.current?.emit("typingForMsg", {
+      typing,
+      conversationId: activeChatUser?.conversationId || id,
+      receiverId,
+    });
+  }, [socket, id, activeChatUser?.conversationId, receiverId, typing, chat]);
 
   return (
     <div className="flex gap-4 items-center justify-between p-3  bg-white ">
@@ -105,6 +137,7 @@ export default function ProfileChatFooter({ activeChatUser, socket }) {
               setChat(e.target.value);
             }}
             onKeyUp={handleKeyUp}
+            onKeyDown={() => setTyping(true)}
           />
         </div>
 
@@ -131,9 +164,10 @@ export default function ProfileChatFooter({ activeChatUser, socket }) {
           </div>
         </div>
       </div>
-      <div className="flex items-center">
-        <button className="text-[#0866ff] text-xl">
-          <HiMiniHandThumbUp />
+      <div className="flex items-center pr-1">
+        <button className="text-[#0866ff] text-xl" onClick={handleSubmit}>
+          {/* <HiMiniHandThumbUp /> */}
+          <BsFillSendFill className="rotate-45 " />
         </button>
       </div>
     </div>

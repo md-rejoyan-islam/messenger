@@ -23,6 +23,7 @@ export const createChat = createAsyncThunk("user/createChat", async (data) => {
     });
     data.setChat("");
     data.setPhotos("");
+
     data.socket.current.emit("lastMessageFromUser", response.data.data);
 
     return response.data;

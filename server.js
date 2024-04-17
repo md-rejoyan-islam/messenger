@@ -6,11 +6,14 @@ import colors from "colors";
 import morgan from "morgan";
 import corsOptions from "./config/corsOption.js";
 import mongoBDConnect from "./config/db.js";
-import { successResponse } from "./helpers/responseHandler.js";
+import { errorResponse, successResponse } from "./helpers/responseHandler.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import chatRouter from "./routes/chat.route.js";
+import messageRouter from "./routes/message.route.js";
+import conversationRouter from "./routes/conversation.route.js";
+import asyncHandler from "express-async-handler";
 
 // initialization
 const app = express();
@@ -25,7 +28,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 
 // morgan
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "Development") {
   app.use(morgan("dev"));
 }
 
@@ -47,6 +50,18 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/chat", chatRouter);
+app.use("/api/v1/message", messageRouter);
+app.use("/api/v1/conversation", conversationRouter);
+
+// client error handling
+app.use(
+  asyncHandler(async (req, res) => {
+    return errorResponse(res, {
+      statusCode: 404,
+      message: "Could not find this route",
+    });
+  })
+);
 
 // use error handler
 app.use(errorHandler);

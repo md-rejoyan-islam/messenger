@@ -2,18 +2,20 @@ import { FiEdit } from "react-icons/fi";
 import UserChatBar from "../chat/leftBar/UserChatBar";
 import GroupChatBar from "../chat/leftBar/GroupChatBar";
 import { useSelector } from "react-redux";
-import { getAllUserData } from "../../../features/user/userSlice";
 import PropTypes from "prop-types";
 import { Search } from "../../../SVG";
 import { MdOutlineMenu } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { getAllUserChat } from "../../../features/chat/chatSlice";
+import { getAllConversation } from "../../../features/conversation/conversationSlice";
+import { getAuthData } from "../../../features/auth/authSlice";
 
-export default function LeftBody({
-  setActiveChatUser,
-  toggleMenu,
-  activeUsers,
-}) {
-  const { users } = useSelector(getAllUserData);
+export default function LeftBody({ setActiveChatUser, toggleMenu }) {
+  const { conversations } = useSelector(getAllConversation);
+
+  const { user } = useSelector(getAuthData);
+
+  const { activeChatUsers } = useSelector(getAllUserChat);
 
   return (
     <>
@@ -48,23 +50,35 @@ export default function LeftBody({
 
           <div className="users flex-1 pr-2 sticky top-0 overflow-auto  scroll-smooth">
             <ul className=" space-y-1 py-3 ">
-              {users?.map((user) => (
-                <li
-                  key={user._id}
-                  onClick={() => {
-                    setActiveChatUser(user);
-                  }}
-                >
-                  <NavLink to={`/t/${user?._id}`} className="block rounded-md ">
-                    <UserChatBar
-                      user={user}
-                      isActive={activeUsers.some(
-                        (activeUser) => activeUser.userId === user._id
-                      )}
-                    />
-                  </NavLink>
-                </li>
-              ))}
+              {conversations?.map((conversation) => {
+                const receiver = conversation?.userIds?.find(
+                  (member) => member._id !== user?._id
+                );
+                return (
+                  <li
+                    key={conversation._id}
+                    onClick={() => {
+                      setActiveChatUser({
+                        ...receiver,
+                        conversationId: conversation._id,
+                      });
+                    }}
+                  >
+                    <NavLink
+                      to={`/t/${conversation?._id}`}
+                      className="block rounded-md "
+                    >
+                      <UserChatBar
+                        user={receiver}
+                        isActive={activeChatUsers?.some(
+                          (activeUser) => activeUser.userId === receiver._id
+                        )}
+                        lastMessage={conversation?.messagesIds}
+                      />
+                    </NavLink>
+                  </li>
+                );
+              })}
               <li>
                 <GroupChatBar />
               </li>
@@ -80,5 +94,4 @@ LeftBody.propTypes = {
   setActiveChatUser: PropTypes.func,
   activeChatUser: PropTypes.object,
   toggleMenu: PropTypes.func,
-  activeUsers: PropTypes.array,
 };

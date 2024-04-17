@@ -10,6 +10,8 @@ const chatSlice = createSlice({
     message: null,
     loading: false,
     lastChaMessage: {},
+    activeChatUsers: [],
+    tyingChatUsers: [],
   },
   reducers: {
     setMessageEmpty: (state) => {
@@ -17,8 +19,9 @@ const chatSlice = createSlice({
       state.error = null;
       state.lastChaMessage = {};
     },
-    updateActiveUserIncomingMsg: (state, action) => {
-      state.chats = [...state.chats, action.payload];
+
+    updateActiveChatUsers: (state, action) => {
+      state.activeChatUsers = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -42,8 +45,7 @@ const chatSlice = createSlice({
 // selectors
 export const getAllUserChat = (state) => state.chats;
 // actions
-export const { setMessageEmpty, updateActiveUserIncomingMsg } =
-  chatSlice.actions;
+export const { setMessageEmpty, updateActiveChatUsers } = chatSlice.actions;
 
 // export
 export default chatSlice.reducer;

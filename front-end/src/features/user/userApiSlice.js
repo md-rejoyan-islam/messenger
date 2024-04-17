@@ -29,3 +29,21 @@ export const getAllUserWithLastMessage = createAsyncThunk(
     }
   }
 );
+
+// disconnected users
+export const getDisconnectedUsers = createAsyncThunk(
+  "user/getDisconnectedUsers",
+  async () => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/api/v1/users/disconnnect-user`,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.error.message);
+    }
+  }
+);

@@ -8,7 +8,7 @@ export default function Avatar({ style, photo, name = "Md Rejoyan" }) {
         <img src={photo} alt="" className={` rounded-full `} />
       ) : (
         <div className="bg-[#9fecaa] h-full w-full rounded-full flex items-center justify-center">
-          <span className="text-[#444487] font-semibold text-[14px]">
+          <span className="text-[#444487] font-semibold text-[14px] uppercase ">
             {nameToLetterAvatar(name)}
           </span>
         </div>

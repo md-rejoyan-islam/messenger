@@ -15,12 +15,6 @@ const transport = nodemailer.createTransport({
 });
 
 const accountActivationEmail = async ({ code, email, subject, link }) => {
-  console.log(
-    process.env.SMTP_HOST,
-    process.env.SMTP_PORT,
-    process.env.EMAIL_HOST_USER,
-    process.env.EMAIL_HOST_PASSWORD
-  );
   try {
     const mailInfo = {
       from: `Activation Code <${code}>`, // sender address

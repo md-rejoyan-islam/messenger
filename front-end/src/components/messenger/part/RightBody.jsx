@@ -17,6 +17,7 @@ export default function RightBody({
   activeChatUser,
   isOpen,
   setIsOpen,
+  isActive,
 }) {
   return (
     <>
@@ -30,10 +31,12 @@ export default function RightBody({
           photo={activeChatUser?.photo}
           name={activeChatUser?.name}
         />
-        <p className="text-green-700 text-[13px] font-semibold text-center">
-          {" "}
-          Active now
-        </p>
+        {/* if user is active  */}
+        {isActive && (
+          <p className="text-green-700 text-[13px] font-semibold text-center">
+            Active now
+          </p>
+        )}
         <h3 className="text-[17px] font-semibold text-center pt-2 pb-5  ">
           {activeChatUser?.name}
         </h3>
@@ -243,4 +246,5 @@ RightBody.propTypes = {
   activeChatUser: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
 };

@@ -15,6 +15,7 @@ export default function ProfileChatHeader({
   activeChatUser,
   isOpen,
   setIsOpen,
+  isActive,
 }) {
   // handle right side or modal popup show
   const handleRightOrModelShow = () => {
@@ -41,9 +42,11 @@ export default function ProfileChatHeader({
               photo={activeChatUser?.photo}
               name={activeChatUser?.name}
             />
-            <div className="absolute -bottom-[2px] right-[1px]">
-              <span className="inline-block h-2 w-2 rounded-full bg-green-600"></span>
-            </div>
+            {isActive && (
+              <div className="absolute -bottom-[2px] right-[1px]">
+                <span className="inline-block h-2 w-2 rounded-full bg-green-600"></span>
+              </div>
+            )}
           </div>
         </div>
         <span className="font-semibold text-[14px] esm:text-[16px] sm:text-lg">
@@ -75,4 +78,5 @@ ProfileChatHeader.propTypes = {
   activeChatUser: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
 };

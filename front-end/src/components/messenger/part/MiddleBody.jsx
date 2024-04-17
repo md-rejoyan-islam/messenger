@@ -10,6 +10,7 @@ export default function MiddleBody({
   setIsOpen,
   activeChatUser,
   socket,
+  isActive,
 }) {
   return (
     <div
@@ -21,6 +22,7 @@ export default function MiddleBody({
         setShowProfile={setShowProfile}
         setIsOpen={setIsOpen}
         isOpen={isOpen}
+        isActive={isActive}
       />
       <ProfileChatBody />
 

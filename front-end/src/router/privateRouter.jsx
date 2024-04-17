@@ -3,7 +3,7 @@ import MainLayout from "../layout/MainLayout";
 import ActivationAfterLogin from "../pages/auth/ActivationAfterLogin";
 import Messenger from "../pages/messenger/Messenger";
 import NoChatSelected from "../pages/NoChatSelected";
-import People from "../pages/People";
+import People from "../pages/People/People";
 import EditProfile from "../pages/profile/EditProfile";
 import Requeted from "../pages/Requeted";
 import PrivateGuard from "./PrivateGuard";
