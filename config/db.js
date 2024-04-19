@@ -3,17 +3,22 @@ import mongoose from "mongoose";
 const mongoBDConnect = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_URL);
-    // database name
-    console.log(
-      `MongoDB Connected: ${connect.connection.db.databaseName}`.cyan.underline
-        .bold
-    );
+
+    mongoose.connection.on("connected", () => {
+      // database name
+      console.log(
+        `MongoDB Connected: ${connect.connection.db.databaseName}`.cyan
+          .underline.bold
+      );
+    });
 
     mongoose.connection.on("error", (err) => {
-      console.error(`MongoDB connection error: ${err}`);
+      console.error(`Error in connecting in database.`.red.underline.bold, err);
     });
   } catch (error) {
-    console.error(`Error: ${error.message}`.red.underline.bold);
+    console.error(`Failed to connect to database`.red.underline.bold, error);
+    // if faild to connect stop server
+    process.exit(1);
   }
 };
 

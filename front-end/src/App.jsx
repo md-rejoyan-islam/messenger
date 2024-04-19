@@ -40,6 +40,7 @@ function App() {
         draggable
         theme="light"
       />
+
       <HelmetProvider context={helmetContext}>
         <RouterProvider router={router} />
       </HelmetProvider>
