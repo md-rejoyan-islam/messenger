@@ -1,103 +1,133 @@
-import Image from "next/image";
+import Footer from "@/components/shared/home-footer";
+import HomeHeader from "@/components/shared/home-header";
+import { Button } from "@/components/ui/button";
+import { FadeIn, SlideIn } from "@/components/ui/transitions";
+import { ArrowRight, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const isAuthenticated = false;
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  return (
+    <>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <HomeHeader />
+
+        {/* Hero section */}
+        <section className="flex-1 bg-gradient-to-b from-blue-50 to-white">
+          <div className="container mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row items-center">
+            <div className="md:w-1/2 md:pr-12 mb-10 md:mb-0">
+              <SlideIn direction="up">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-messenger-black">
+                  Connect with your friends instantly
+                </h1>
+                <p className="text-xl text-messenger-dark-grey mb-8">
+                  Simple, reliable, private messaging with a clean interface.
+                  Keep in touch with the people who matter most.
+                </p>
+                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                  {isAuthenticated ? (
+                    <Button
+                      size="lg"
+                      className="bg-messenger-blue hover:bg-messenger-light-blue"
+                      asChild
+                    >
+                      <Link href="/messages">
+                        Go to Messages
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        size="lg"
+                        className="bg-messenger-blue hover:bg-messenger-light-blue"
+                        asChild
+                      >
+                        <Link href="/register">
+                          Get Started
+                          <ArrowRight className="ml-2 h-5 w-5" />
+                        </Link>
+                      </Button>
+                      <Button size="lg" variant="outline" asChild>
+                        <Link href="/login">Log in</Link>
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </SlideIn>
+            </div>
+
+            <div className="md:w-1/2">
+              <FadeIn delay={0.2}>
+                <div className="relative">
+                  <div className="w-full h-full absolute top-0 left-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl transform rotate-3 scale-95"></div>
+                  <div className="bg-white rounded-3xl shadow-2xl overflow-hidden p-4 relative z-10">
+                    <div className="flex items-center space-x-3 border-b pb-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-messenger-blue flex items-center justify-center">
+                        <MessageCircle className="text-white w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Messenger</h3>
+                        <p className="text-xs text-messenger-dark-grey">
+                          Connected
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex justify-start">
+                        <div className="bg-messenger-grey text-messenger-black rounded-2xl py-2 px-4 max-w-xs">
+                          <p>Hey! How are you doing?</p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end">
+                        <div className="bg-messenger-blue text-white rounded-2xl py-2 px-4 max-w-xs">
+                          <p>
+                            I&apos;m doing great! Just checking out this new
+                            messenger app.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-start">
+                        <div className="bg-messenger-grey text-messenger-black rounded-2xl py-2 px-4 max-w-xs">
+                          <p>It looks amazing! So clean and minimal.</p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end">
+                        <div className="bg-messenger-blue text-white rounded-2xl py-2 px-4 max-w-xs">
+                          <p>Absolutely! The animations are so smooth too.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex items-center">
+                      <input
+                        type="text"
+                        placeholder="Type a message..."
+                        className="flex-1 bg-messenger-light-grey rounded-full py-2 px-4 focus:outline-none"
+                      />
+                      <Button
+                        size="sm"
+                        className="ml-2 bg-messenger-blue hover:bg-messenger-light-blue rounded-full w-8 h-8 p-0"
+                      >
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <Footer />
+      </div>
+    </>
   );
 }
