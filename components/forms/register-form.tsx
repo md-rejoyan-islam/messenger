@@ -120,7 +120,7 @@ const RegisterForm = () => {
         afterSubmit="Creating account..."
       />
 
-      <div className="text-center mt-6">
+      <div className="text-center">
         <p className="text-sm text-messenger-dark-grey">
           Already have an account?{" "}
           <Link

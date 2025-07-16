@@ -4,8 +4,9 @@ import { FadeIn } from "@/components/ui/transitions";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Log in to your account",
+  title: "Login | Messenger",
+  description:
+    "Log in to your Messenger account. By logging in, you agree to our Terms of Service and Privacy Policy.",
 };
 
 const Login = () => {

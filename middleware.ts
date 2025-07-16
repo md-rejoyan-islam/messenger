@@ -5,8 +5,6 @@ export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const pathname = request.nextUrl.pathname;
 
-  console.log(accessToken);
-
   const publicPaths = [
     "/",
     "/login",

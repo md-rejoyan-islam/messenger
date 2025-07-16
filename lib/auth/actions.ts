@@ -11,9 +11,6 @@ export async function login({
   email: string;
   password: string;
 }) {
-  //   const email = formData.get("email");
-  //   const password = formData.get("password");
-
   if (!email || !password) {
     return { error: "Email and password are required." };
   }
@@ -33,11 +30,9 @@ export async function login({
     }
 
     const data = await response.json();
-    // console.log(data);
 
     const { accessToken, refreshToken } = data?.data || {};
 
-    // set accessToken and refreshToken in cookies
     await storeCookie({
       name: "accessToken",
       value: accessToken,

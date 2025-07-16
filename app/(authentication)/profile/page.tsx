@@ -9,21 +9,24 @@ import { ArrowLeft, Save, User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import React, { useState, useEffect } from "react";
-import { useUpdateProfileMutation } from "@/lib/services/userApi";
+import {
+  useGetUserProfileQuery,
+  useUpdateProfileMutation,
+} from "@/lib/services/userApi";
+import React, { useState } from "react";
 
 const Profile = () => {
-  const user = {
-    id: Math.random().toString(36).substring(2, 9),
-    name: "John Doe",
-    email: "john@gmail.com",
-    avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
-  };
+  const { data } = useGetUserProfileQuery({});
+
+  const user = data?.data || {};
+
+  console.log("user profile data:", user);
+
   const { toast } = useToast();
   const router = useRouter();
 
   const [name, setName] = useState(user?.name || "");
-  const [avatar, setAvatar] = useState(user?.avatar || "");
+  const [avatar, setAvatar] = useState(user?.profilePhoto || "");
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,6 +95,7 @@ const Profile = () => {
               <Input
                 id="name"
                 value={name}
+                defaultValue={user?.name}
                 onChange={(e) => setName(e.target.value)}
                 className="border-messenger-grey focus-visible:ring-messenger-blue"
               />

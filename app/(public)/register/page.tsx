@@ -4,8 +4,9 @@ import { FadeIn } from "@/components/ui/transitions";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Register",
-  description: "Create a new account to get started with Messenger",
+  title: "Register | Messenger",
+  description:
+    "Create a new account to get started with Messenger. By registering, you agree to our Terms of Service and Privacy Policy.",
 };
 
 const Register = () => {

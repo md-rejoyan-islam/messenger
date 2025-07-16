@@ -125,6 +125,12 @@ export const userApi = createApi({
       }),
       providesTags: ["User"], // Provide 'User' tag for all friends
     }),
+    getUserProfile: builder.query({
+      query: () => ({
+        url: `/profile`,
+        method: "GET",
+      }),
+    }),
     // providesTags: (result) =>
     //   result
     //     ? [...result.map(({ id }) => ({ type: "User", id })), "User"]
@@ -146,4 +152,5 @@ export const {
   useGetFriendRequestsQuery,
   useGetSendFriendRequestsQuery,
   useGetAllFriendsQuery,
+  useGetUserProfileQuery,
 } = userApi;
