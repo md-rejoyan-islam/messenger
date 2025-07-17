@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Find Friends",
-  description: "Find and connect with friends on our platform.",
+  description:
+    "Find and connect with friends on our platform. Search for users by name or email to send friend requests and start chatting.",
 };
 
 const FindFriendsPage = () => {

@@ -1,5 +1,3 @@
-// app/api/proxy/[...path]/route.ts
-
 import {
   deleteCookie,
   getTokens,
@@ -10,7 +8,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.API_URL + "/api/v1";
 
-// This will handle all API requests coming from RTK Query
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
@@ -56,9 +53,8 @@ async function handleProxyRequest(
   const targetUrl = `${API_URL}/${urlPath}${request.nextUrl.search}`;
 
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.delete("host"); // Remove host header to prevent issues with forwarding
+  requestHeaders.delete("host");
 
-  // Attach access token if available
   if (accessToken) {
     requestHeaders.set("Authorization", `Bearer ${accessToken}`);
   }
@@ -69,9 +65,7 @@ async function handleProxyRequest(
     body:
       request.method === "GET" || request.method === "HEAD"
         ? undefined
-        : await request.arrayBuffer(), // Use arrayBuffer for raw body
-    // You might need to adjust `duplex` for streaming requests in Node.js 18+
-    // duplex: 'half',
+        : await request.arrayBuffer(),
   });
 
   // Handle 401 Unauthorized - attempt to refresh token
@@ -104,8 +98,8 @@ async function handleProxyRequest(
           request.method === "GET" || request.method === "HEAD"
             ? undefined
             : await request.arrayBuffer(),
-        // duplex: 'half',
-      });
+        duplex: "half",
+      } as RequestInit);
 
       await storeCookie({
         name: "accessToken",

@@ -5,7 +5,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sent Friend Requests",
-  description: "View and manage your sent friend requests.",
+  description:
+    "View and manage your sent friend requests. You can see the status of your requests and cancel them if needed.",
 };
 
 const SentRequests = () => {

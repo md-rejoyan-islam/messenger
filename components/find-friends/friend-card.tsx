@@ -1,9 +1,6 @@
 import { UserPlus } from "lucide-react";
 
-import {
-  useCancelFriendRequestMutation,
-  useSendFriendRequestMutation,
-} from "@/lib/services/userApi";
+import { useSendFriendRequestMutation } from "@/lib/services/userApi";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -12,34 +9,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 const FriendCard = ({
   photo,
   name,
-  isFriend,
-  hasSentRequest,
   userId,
   refetch,
 }: {
   refetch: () => void;
   photo?: string;
   name: string;
-  isFriend: boolean;
-  hasSentRequest: boolean;
   userId: string;
 }) => {
   const [sendFriendRequest] = useSendFriendRequestMutation();
-  const [cancelFriendRequestMutation] = useCancelFriendRequestMutation();
-  const handleCancelFriendRequest = async () => {
-    try {
-      await cancelFriendRequestMutation({ id: userId }).unwrap();
-      refetch();
-      toast.success("Friend Request Cancelled", {
-        description: "Your friend request has been cancelled.",
-      });
-    } catch (err) {
-      console.error("Failed to cancel friend request:", err);
-      toast.error("Failed to cancel", {
-        description: "Failed to cancel friend request.",
-      });
-    }
-  };
+  // const [cancelFriendRequestMutation] = useCancelFriendRequestMutation();
+  // const handleCancelFriendRequest = async () => {
+  //   try {
+  //     await cancelFriendRequestMutation({ id: userId }).unwrap();
+  //     refetch();
+  //     toast.success("Friend Request Cancelled", {
+  //       description: "Your friend request has been cancelled.",
+  //     });
+  //   } catch (err) {
+  //     console.error("Failed to cancel friend request:", err);
+  //     toast.error("Failed to cancel", {
+  //       description: "Failed to cancel friend request.",
+  //     });
+  //   }
+  // };
   const handleSendFriendRequest = async () => {
     try {
       await sendFriendRequest({ id: userId }).unwrap();
@@ -68,27 +61,13 @@ const FriendCard = ({
         </div>
       </CardHeader>
       <CardContent className="pt-2">
-        {isFriend ? (
-          <Button className="w-full text-xs" variant="outline" disabled>
-            Friends
-          </Button>
-        ) : hasSentRequest ? (
-          <Button
-            className="w-full text-xs"
-            variant="outline"
-            onClick={() => handleCancelFriendRequest()}
-          >
-            Cancel Request
-          </Button>
-        ) : (
-          <Button
-            className="w-full text-xs bg-messenger-blue hover:bg-messenger-light-blue"
-            onClick={() => handleSendFriendRequest()}
-          >
-            <UserPlus className="h-4 w-4 mr-1" />
-            Add Friend
-          </Button>
-        )}
+        <Button
+          className="w-full text-xs bg-messenger-blue hover:bg-messenger-light-blue"
+          onClick={() => handleSendFriendRequest()}
+        >
+          <UserPlus className="h-4 w-4 mr-1" />
+          Add Friend
+        </Button>
       </CardContent>
     </Card>
   );

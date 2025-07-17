@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/lib/auth/actions";
+import { useGetUserProfileQuery } from "@/lib/services/userApi";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,11 +41,13 @@ const AutheticatedHeader: React.FC = () => {
     });
   };
 
+  const { data } = useGetUserProfileQuery({});
+
   const user = {
-    id: Math.random().toString(36).substring(2, 9),
-    name: "John Doe",
-    email: "john@gmail.com",
-    avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
+    id: data?.data?._id,
+    name: data?.data?.name,
+    email: data?.data?.email,
+    avatar: data?.data?.profilePhoto,
   };
 
   return (
@@ -90,13 +93,15 @@ const AutheticatedHeader: React.FC = () => {
                       "hover:border-messenger-blue transition-all duration-200"
                     )}
                   >
-                    <Image
-                      width={36}
-                      height={36}
-                      src={user?.avatar}
-                      alt={user?.name}
-                      className="w-full h-full object-cover"
-                    />
+                    {user?.avatar && (
+                      <Image
+                        width={36}
+                        height={36}
+                        src={user?.avatar}
+                        alt={user?.name || "Profile Avatar"}
+                        className="w-full h-full object-cover 2"
+                      />
+                    )}
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent

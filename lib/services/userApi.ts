@@ -29,7 +29,7 @@ export const baseQueryWithRedirect: BaseQueryFn<
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithRedirect,
-  tagTypes: ["User"],
+  tagTypes: ["User", "Auth"],
   endpoints: (builder) => ({
     updateProfile: builder.mutation({
       query: (userData) => ({
@@ -37,7 +37,7 @@ export const userApi = createApi({
         method: "PUT",
         body: userData,
       }),
-      invalidatesTags: ["User"], // Invalidate 'User' tag after profile update
+      invalidatesTags: ["Auth"],
     }),
     changePassword: builder.mutation({
       query: (passwords) => ({
@@ -45,7 +45,7 @@ export const userApi = createApi({
         method: "PUT",
         body: passwords,
       }),
-      invalidatesTags: ["User"], // Invalidate 'User' tag after password change
+      invalidatesTags: ["Auth"],
     }),
     sendFriendRequest: builder.mutation({
       query: ({ id }) => ({
@@ -73,14 +73,14 @@ export const userApi = createApi({
       query: ({ id }) => ({
         url: `/friend-requests/${id}/reject`,
       }),
-      invalidatesTags: ["User"], // Invalidate 'User' tag after rejecting friend request
+      invalidatesTags: ["User"],
     }),
     cancelFriendRequest: builder.mutation({
       query: ({ id }) => ({
         url: `/friend-requests/${id}/cancel`,
         method: "POST",
       }),
-      invalidatesTags: ["User"], // Invalidate 'User' tag after cancelling friend request
+      invalidatesTags: ["User"],
     }),
     unfriend: builder.mutation({
       query: ({ id }) => ({
@@ -110,6 +110,7 @@ export const userApi = createApi({
         url: `/find-friends?search=${searchTerm}`,
         method: "GET",
       }),
+      providesTags: ["User"],
     }),
     getSendFriendRequests: builder.query({
       query: () => ({
@@ -130,6 +131,7 @@ export const userApi = createApi({
         url: `/profile`,
         method: "GET",
       }),
+      providesTags: ["Auth"],
     }),
     // providesTags: (result) =>
     //   result

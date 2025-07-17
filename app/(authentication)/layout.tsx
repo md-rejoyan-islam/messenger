@@ -9,7 +9,7 @@ export default async function Layout({
     <div className="flex flex-col h-screen overflow-hidden bg-white">
       <AutheticatedHeader />
 
-      <main className="flex-1 overflow-hidden">{children}</main>
+      <main className="flex-1 overflow-scroll">{children}</main>
     </div>
   );
 }
